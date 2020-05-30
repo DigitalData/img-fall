@@ -6,7 +6,7 @@ const imgfall = function(){
     if(parseFloat(fallingDiv.parentNode.style.height) > 0){
         fallingDiv.style.height = fallingDiv.parentNode.style.height
     }else{
-        fallingDiv.style.height = '100vh';
+        fallingDiv.style.height = '100%';
     }
 
     fallingDiv.style.overflow = 'hidden';
@@ -55,7 +55,7 @@ function FallingImage(domEl, parent){
 
     this.update = function(time){
         this.speed = speed
-        if(this.yPos >= window.outerHeight){
+        if(this.yPos >= window.scrollHeight){
             this.yPos = -1 * Math.max(this.rect.height, this.rect.width);
             this.xPos = (Math.random() * (this.parent.width - this.rect.width))
             speed = Math.random() * (imgfall.speedMax - imgfall.speedMin) + imgfall.speedMin;

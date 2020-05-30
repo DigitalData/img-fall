@@ -8,7 +8,7 @@
 
 <style>
     body{
-        margin: 0;
+        margin: 10px;
         padding: 0;
         background-color: #222222;
         color: white;
@@ -17,23 +17,27 @@
     }
 
     .left{
+        margin: 0;
         position: absolute;
         top: 0;
         left: 0;
         display: block;
         width:50vw;
+        overflow-y: hidden;
         height: 100vh;
-        overflow: hidden;
     }
 
     .right{
         width: calc(50vw - 40px);
         position: absolute;
         top: 0;
+        margin: 0;
         left: 50vw;
         display: block;
-        padding: 20px;
+        padding: 0px 20px;
         overflow-x: hidden;
+        height: 100vh;
+        overflow-y: auto;
     }
 
     img{
@@ -52,11 +56,15 @@
         width: calc(100% - 40px);
         margin: 0;
     }
+
+    small{
+        width: 100%;
+        padding: 30px;
+    }
 </style>
 
 </head>
 <body>
-
     <div class="left">
         <div id="imgfall-div">
             <img src="src/img/cursed duck.jpg" alt="" srcset="" width="250px">
@@ -66,6 +74,7 @@
         </div>
     </div>
     <div class="right">
+        <br>
         <h1>IMGFALL demo</h1>
         <h2>I don't recommend this solution unless you like fiddling with code.</h2>
         <h3> - First, Include the <code>imgfall.js</code> script in your html file.</h3>
@@ -163,6 +172,7 @@ function FallingImage(domEl, parent){
     };
 }
         </xmp>
+        <small>Created by DigitalData / Xavier Travers</small>
     </div>
     
     <script>
