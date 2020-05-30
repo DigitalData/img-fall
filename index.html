@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMGFALL Demo</title>
+    <script src="src/js/imgfall.js"></script>
+
+<style>
+    body{
+        margin: 0;
+        padding: 0;
+        background-color: #222222;
+        color: white;
+        font-family:Arial, Helvetica, sans-serif;
+        overflow-x: hidden;
+    }
+
+    .left{
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width:50vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .right{
+        width: calc(50vw - 40px);
+        position: absolute;
+        top: 0;
+        left: 50vw;
+        display: block;
+        padding: 20px;
+        overflow-x: hidden;
+    }
+
+    img{
+        border-radius: 20px;
+        /* box-shadow: black 10px 10px 10px; */
+    }
+
+    xmp, code{
+        padding: 2.5px 20px;
+        width: calc(100% - 50px);
+        background-color: #111111;
+    }
+
+    h3{
+        padding: 2.5px 10px;
+        width: calc(100% - 40px);
+        margin: 0;
+    }
+</style>
+
+</head>
+<body>
+
+    <div class="left">
+        <div id="imgfall-div">
+            <img src="src/img/cursed duck.jpg" alt="" srcset="" width="250px">
+            <img src="src/img/42480950610_8658022893_b.jpg" alt="" srcset="" width="250px">
+            <img src="src/img/81101268.jpg" alt="" srcset="" height="300px" width="250px">
+            <img src="src/img/big_1471882143_image.jpg" alt="" width="250px">
+        </div>
+    </div>
+    <div class="right">
+        <h1>IMGFALL demo</h1>
+        <h2>I don't recommend this solution unless you like fiddling with code.</h2>
+        <h3> - First, Include the <code>imgfall.js</code> script in your html file.</h3>
+        <xmp>
+<script src="src/js/imgfall.js"></script>
+        </xmp>
+        <h3> - Next, you need a div for imgfall images, and the images in it with either a set width or set height (I recommend setting both).</h3>
+        <xmp>
+<div id="imgfall-div">
+    <img src="src/img/cursed duck.jpg" alt="" srcset="" width="250px">
+    <img src="src/img/42480950610_8658022893_b.jpg" alt="" srcset="" width="250px">
+    <img src="src/img/81101268.jpg" alt="" srcset="" height="300px" width="250px">
+    <img src="src/img/big_1471882143_image.jpg" alt="" width="250px">
+</div>
+    </xmp>
+        <h3> - Finally, initialise imgfall with the <code>imgfall()</code> function</h3>
+        <xmp>
+<script>
+    imgfall();
+</script>
+        </xmp>
+
+        <h3>To set things like start times and speeds (or to tinker with imgfall functions), feel free to edit <code>imgfall.js</code>. Here is the file:</h3>
+        <xmp>
+const imgfall = function(){
+    console.log('imgfall initialised.');
+    fallingDiv = document.getElementById('imgfall-div');
+
+    if(parseFloat(fallingDiv.parentNode.style.height) > 0){
+        fallingDiv.style.height = fallingDiv.parentNode.style.height
+    }else{
+        fallingDiv.style.height = '100vh';
+    }
+
+    fallingDiv.style.overflow = 'hidden';
+    newImages = fallingDiv.children;
+    this.images = []
+    Array.from(newImages).forEach(function(image){
+        //image.style.position = 'absolute'
+        this.images.push(new FallingImage(image, fallingDiv))
+    });
+
+    setInterval(function(){
+        this.images.forEach(function (image){
+            image.update(1/1000)
+        })
+    }, 1)
+
+};
+
+// max and min speeds of images as they fall
+imgfall.speedMax = 1000 // in px per sec
+imgfall.speedMin = 400 // in px per sec
+
+// max and min times before images start falling
+imgfall.timeMax = 15 // in sec
+imgfall.timeMin = 0 // in sec
+
+function FallingImage(domEl, parent){
+    // falling image object.
+    this.parent = parent.getBoundingClientRect();
+    this.dom = domEl;
+    this.dom.style.position = 'absolute'
+    this.speed = 0;
+
+    // find random start time in ms
+    this.startTime = (Math.random() * (imgfall.timeMax - imgfall.timeMin) + imgfall.timeMin)
+    this.startTime *= 1000
+
+    this.rect = domEl.getBoundingClientRect();
+
+    this.yPos = -1 * Math.max(this.rect.height, this.rect.width);
+    this.dom.style.top = this.yPos;
+
+    this.xPos = (Math.random() * (this.parent.width - this.rect.width))
+    this.dom.style.left = this.xPos + 'px';
+
+    let speed = 0;
+    setTimeout(function(){
+        speed = Math.random() * (imgfall.speedMax - imgfall.speedMin) + imgfall.speedMin;
+    }, this.startTime)
+
+    this.update = function(time){
+        this.speed = speed
+        if(this.yPos >= window.outerHeight){
+            this.yPos = -1 * Math.max(this.rect.height, this.rect.width);
+            this.xPos = (Math.random() * (this.parent.width - this.rect.width))
+            speed = Math.random() * (imgfall.speedMax - imgfall.speedMin) + imgfall.speedMin;
+        }else{
+            this.yPos += this.speed * time;
+        }
+
+        this.dom.style.top = this.yPos + 'px'
+        this.dom.style.left = this.xPos + 'px';
+    };
+}
+        </xmp>
+    </div>
+    
+    <script>
+        imgfall();
+    </script>
+</body>
+</html>
